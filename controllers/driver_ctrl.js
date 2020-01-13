@@ -1,3 +1,5 @@
+const Driver = require('../models/driver');
+
 module.exports = {
   greeting(req, res, next) {
     res.send({ msg: 'Hi there!' });
@@ -5,7 +7,15 @@ module.exports = {
 
   create(req, res, next) {
     const driverProps = req.body;
-    console.log(driverProps);
-    res.send({ msg: 'All info received well.'})
+    // console.log('new driver:', driverProps);
+    // const driver = new Driver(driverProps);
+    // driver.save()
+    //   .then(result => { 
+    //     console.log('driver:', result)
+    //     res.send(result)
+    //   });
+    Driver.create(driverProps)
+      .then(driver => res.send(driver))
+      .catch(next);
   }
 }
