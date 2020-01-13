@@ -7,7 +7,11 @@ module.exports = (app) => {
 
   app.get('/api/drivers', driverCtrl.findDrivers);
 
+  app.get('/api/driver', driverCtrl.findDriver);
+
   app.post('/api/driver', driverCtrl.create);
 
   app.put('/api/drivers/:id', driverCtrl.edit);
+
+  app.delete('/api/drivers/:id', driverCtrl.delete);
 }

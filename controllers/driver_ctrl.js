@@ -34,5 +34,28 @@ module.exports = {
       .then(drivers => {
         res.send(drivers)
       });
+  },
+
+  findDriver(req, res) {
+    if (req.query.email) {
+      Driver.findOne({ email: req.query.email })
+      .then(driver => {
+        res.send(driver);
+      })
+    } else {
+      Driver.findOne({ name: req.query.name })
+      .then(driver => {
+        res.send(driver);
+      })
+    }
+  },
+
+  delete(req, res, next) {
+    const driverId = req.params.id;
+    Driver.deleteOne({ _id: driverId })
+      .then(result => {
+        res.send(result);
+      })
+      .catch(next);
   }
 }
