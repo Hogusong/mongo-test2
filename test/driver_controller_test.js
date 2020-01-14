@@ -68,4 +68,28 @@ describe('The Drivers controller', () => {
         })
     })
   });
+
+  it("GET to /api/drivers finds drivers near [lng, lat]", done => {
+    const seattleDriver = new Driver({
+      name: 'Joe Song',
+      email: 'seattle@test.com',
+      geometry: { coordinates: [-122.475, 47.614] }
+    });
+    const bostonDriver = new Driver({
+      name: 'Randy Song',
+      email: 'boston@test.com',
+      geometry: { coordinates: [-71.253, 42.791] }
+    });
+
+    Promise.all([ seattleDriver.save(), bostonDriver.save() ])
+      .then(() => {
+        request(app)
+          .get('/api/available/drivers?lng=-71&lat=42')
+          .end((err, response) => {
+            assert(response.body.length == 1);
+            assert(response.body[0].email === 'boston@test.com')
+            done()
+          })
+      })
+  });
 })

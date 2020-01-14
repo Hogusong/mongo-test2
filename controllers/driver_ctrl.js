@@ -57,5 +57,26 @@ module.exports = {
         res.send(result);
       })
       .catch(next);
+  },
+
+  index(req, res, next) {
+    // req.uri = 'http://google.com?lng=80&lat=12'  
+    // req.query = { lng: 80, lat: 12 }
+    
+    const lng = parseFloat(req.query.lng);
+    const lat = parseFloat(req.query.lat);
+
+    Driver.aggregate([{
+      '$geoNear': {
+            'near': { 'type': 'Point',  'coordinates': [lng, lat] }, 
+            'spherical': true,  
+            'distanceField': 'dist',
+            'maxDistance': 200000
+        }
+    }])
+      .then(drivers => {
+        res.send(drivers);
+      })
+      .catch(next)
   }
 }

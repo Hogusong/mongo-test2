@@ -14,4 +14,6 @@ module.exports = (app) => {
   app.put('/api/drivers/:id', driverCtrl.edit);
 
   app.delete('/api/drivers/:id', driverCtrl.delete);
+
+  app.get('/api/available/drivers', driverCtrl.index);
 }
