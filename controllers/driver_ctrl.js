@@ -22,7 +22,7 @@ module.exports = {
   edit(req, res, next) {
     const driverId = req.params.id;
     const driverProps = req.body;
-    Driver.update({ _id: driverId }, driverProps)
+    Driver.updateOne({ _id: driverId }, driverProps)
       .then(() => Driver.findById({ _id: driverId }))
       .then(driver => {
         res.send(driver)})

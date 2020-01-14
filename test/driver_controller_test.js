@@ -26,4 +26,25 @@ describe('The Drivers controller', () => {
         })
     })
   });
+
+  it('PUT to /api/driver to update a driver', done => {
+    const driver = new Driver({
+      name: 'Narae Song',
+      email: 'narae.song@gmail.com'
+    })
+    driver.save().then(() => {
+      assert(driver.driving == false);
+      request(app)
+        .put('/api/drivers/' + driver._id)
+        .send({
+          email: 'narae.song@yahoo.com',
+          driving: true
+        })
+        .end((err, response) => {
+          assert(response.body.email == 'narae.song@yahoo.com');
+          assert(response.body.driving == true);
+          done();
+        })
+    })
+  })
 })
